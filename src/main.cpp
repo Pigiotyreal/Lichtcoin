@@ -17,5 +17,14 @@ int main() {
 
     std::cout << "Is blockchain valid? " << blockchain.isChainValid() << std::endl;
 
+    for (int i = 0; i < blockchain.chain.size(); i++) {
+        std::cout << "Block " << i << " data: " << blockchain.chain[i].data << std::endl;
+        std::cout << "Block " << i << " hash: " << blockchain.chain[i].hash << std::endl;
+        std::cout << "Block " << i << " previous hash: " << blockchain.chain[i].previousHash << std::endl;
+        std::cout << "Block " << i << " nonce: " << blockchain.chain[i].nonce << std::endl;
+        std::cout << "Block " << i << " difficulty: " << blockchain.chain[i].difficulty << std::endl;
+        std::cout << "Block " << i << " timestamp: " << blockchain.chain[i].timestamp << std::endl;
+    }
+
     return 0;
 }

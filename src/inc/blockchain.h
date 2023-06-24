@@ -6,7 +6,7 @@
 
 struct Blockchain {
     std::vector<Block> chain;
-    int difficulty = 3;
+    int difficulty;
 
     Blockchain(int difficulty);
     void addBlock(Block block);
