@@ -5,6 +5,12 @@ Blockchain::Blockchain(int difficulty) {
     this->chain.push_back(Block(0, "Genesis Block", "0", difficulty));
 }
 
+void Blockchain::minePendingTransactions() {
+    Block newBlock = Block(this->chain.size(), "Pending Block", this->getLastBlock().hash, this->difficulty);
+    newBlock.mineBlock(this->difficulty);
+    this->chain.push_back(newBlock);
+}
+
 void Blockchain::addBlock(Block block) {
     this->chain.push_back(block);
 }

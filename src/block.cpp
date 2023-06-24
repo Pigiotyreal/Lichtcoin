@@ -1,5 +1,14 @@
 #include "block.h"
 
+void Block::mineBlock(int difficulty) {
+    std::string target = std::string(difficulty, '0');
+    while(hash.substr(0, difficulty) != target) {
+        nonce++;
+        hash = calculateHash(*this);
+    }
+    std::cout << "Block mined: " << hash << std::endl;
+}
+
 int generateNonce(Block block) {
     std::random_device rd;
     std::mt19937 gen(rd());

@@ -19,6 +19,7 @@ struct Block {
     long long timestamp;
 
     Block(int index, std::string data, std::string previousHash, int difficulty);
+    void mineBlock(int difficulty);
 };
 
 std::string calculateHash(Block block);

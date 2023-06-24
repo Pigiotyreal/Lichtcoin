@@ -12,6 +12,7 @@ struct Blockchain {
     void addBlock(Block block);
     bool isChainValid();
     Block getLastBlock();
+    void minePendingTransactions();
 };
 
 #endif
