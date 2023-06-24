@@ -10,6 +10,7 @@
 #include "openssl/sha.h"
 
 struct Block {
+    int index;
     std::string hash;
     std::string previousHash;
     std::string data;
@@ -17,7 +18,7 @@ struct Block {
     int difficulty;
     long long timestamp;
 
-    Block(std::string data, std::string previousHash, int difficulty);
+    Block(int index, std::string data, std::string previousHash, int difficulty);
 };
 
 std::string calculateHash(Block block);

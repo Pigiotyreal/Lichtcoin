@@ -1,4 +1,4 @@
-#include "inc/block.h"
+#include "block.h"
 
 int generateNonce(Block block) {
     std::random_device rd;
@@ -31,7 +31,8 @@ std::string calculateHash(Block block) {
     return ss.str();
 }
 
-Block::Block(std::string data, std::string previousHash, int difficulty) {
+Block::Block(int index, std::string data, std::string previousHash, int difficulty) {
+    this->index = 0;
     this->data = data;
     this->previousHash = previousHash;
     this->difficulty = difficulty;
@@ -40,11 +41,4 @@ Block::Block(std::string data, std::string previousHash, int difficulty) {
     this->hash = calculateHash(*this);
 
     std::cout << "Block created!" << std::endl;
-}
-
-int main() {
-    Block block("data", "previousHash", 0);
-    std::cout << block.hash << std::endl;
-    std::cout << block.nonce << std::endl;
-    return 0;
 }
