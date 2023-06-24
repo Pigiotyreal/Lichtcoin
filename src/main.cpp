@@ -3,7 +3,7 @@
 #include "blockchain.h"
 
 int main() {    
-    Blockchain blockchain = Blockchain(5);
+    Blockchain blockchain = Blockchain(3);
 
     std::cout << "Mining block 1..." << std::endl;
     blockchain.minePendingTransactions();

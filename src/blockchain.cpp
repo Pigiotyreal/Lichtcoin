@@ -5,7 +5,22 @@ Blockchain::Blockchain(int difficulty) {
     this->chain.push_back(Block(0, "Genesis Block", "0", difficulty));
 }
 
+void Blockchain::adjustDifficulty() {
+    int number = 1;
+    int blockTime = 3;
+
+    if(this->chain.size() % number == 0) {
+        long long timeDiff = this->chain[this->chain.size() - 1].timestamp - this->chain[this->chain.size() - 1 - number].timestamp;
+        if(timeDiff < blockTime) {
+            this->difficulty++;
+        } else {
+            this->difficulty--;
+        }
+    }
+}
+
 void Blockchain::minePendingTransactions() {
+    adjustDifficulty();
     Block newBlock = Block(this->chain.size(), "Pending Block", this->getLastBlock().hash, this->difficulty);
     newBlock.mineBlock(this->difficulty);
     this->chain.push_back(newBlock);

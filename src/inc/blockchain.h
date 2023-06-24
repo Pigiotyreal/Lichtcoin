@@ -13,6 +13,7 @@ struct Blockchain {
     bool isChainValid();
     Block getLastBlock();
     void minePendingTransactions();
+    void adjustDifficulty();
 };
 
 #endif
