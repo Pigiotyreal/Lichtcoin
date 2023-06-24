@@ -6,6 +6,7 @@
 #include <chrono>
 #include <iomanip>
 #include <sstream>
+#include <random>
 #include "openssl/sha.h"
 
 struct Block {
@@ -20,5 +21,6 @@ struct Block {
 };
 
 std::string calculateHash(Block block);
+int generateNonce(Block block);
 
 #endif

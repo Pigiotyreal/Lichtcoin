@@ -1,5 +1,12 @@
 #include "inc/block.h"
 
+int generateNonce(Block block) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, INT_MAX);
+    return dis(gen);
+}
+
 std::string calculateHash(Block block) {
     std::string data = block.data;
     std::string previousHash = block.previousHash;
@@ -16,6 +23,7 @@ std::string calculateHash(Block block) {
     SHA256_Final(hash, &sha256);
 
     std::stringstream ss;
+    
     for(int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
         ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
     }
@@ -27,7 +35,7 @@ Block::Block(std::string data, std::string previousHash, int difficulty) {
     this->data = data;
     this->previousHash = previousHash;
     this->difficulty = difficulty;
-    this->nonce = 0;
+    this->nonce = generateNonce(*this);
     this->timestamp = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     this->hash = calculateHash(*this);
 
@@ -37,5 +45,6 @@ Block::Block(std::string data, std::string previousHash, int difficulty) {
 int main() {
     Block block("data", "previousHash", 0);
     std::cout << block.hash << std::endl;
+    std::cout << block.nonce << std::endl;
     return 0;
 }
