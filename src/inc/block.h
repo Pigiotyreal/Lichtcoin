@@ -11,7 +11,7 @@ struct Block {
     std::string data;
     int nonce;
     int difficulty;
-    long timestamp;
+    long long timestamp;
 
     Block(std::string data, std::string previousHash, int difficulty);
 };

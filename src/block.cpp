@@ -11,6 +11,6 @@ Block::Block(std::string data, std::string previousHash, int difficulty) {
 
 int main() {
     Block block("data", "previousHash", 0);
-    std::cout << block.hash << std::endl;
+    std::cout << block.timestamp << std::endl;
     return 0;
 }
