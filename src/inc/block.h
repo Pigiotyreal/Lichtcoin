@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 #include <chrono>
+#include <iomanip>
+#include <sstream>
+#include "openssl/sha.h"
 
 struct Block {
     std::string hash;
@@ -15,5 +18,7 @@ struct Block {
 
     Block(std::string data, std::string previousHash, int difficulty);
 };
+
+std::string calculateHash(Block block);
 
 #endif
