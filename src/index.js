@@ -14,14 +14,18 @@ class Block {
     static get genesis() {
         const index = 0
         const prevHash = "0".repeat(64)
+        const hash = crypto.createHash("sha256").update("Genesis Block").digest("hex")
         const data = "Genesis Block"
         const timestamp = 0
         const difficulty = 0
         const nonce = 0
 
-        return new Block(index, prevHash, data, timestamp, difficulty, nonce)
+        return new Block(index, prevHash, hash, data, timestamp, difficulty, nonce)
     }
 }
+
+const genesisBlock = Block.genesis
+console.log(genesisBlock)
 
 block = new Block(
     1,
