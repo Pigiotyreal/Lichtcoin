@@ -22,3 +22,15 @@ class Block {
         return new Block(index, prevHash, data, timestamp, difficulty, nonce)
     }
 }
+
+block = new Block(
+    1,
+    "0".repeat(64),
+    crypto.createHash("sha256").update("Block").digest("hex"),
+    "Block",
+    Date.now(),
+    0,
+    0
+)
+
+console.log(block)
