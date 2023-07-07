@@ -17,7 +17,7 @@ class Block {
         const hash = crypto.createHash("sha256").update("Genesis Block").digest("hex")
         const data = "Genesis Block"
         const timestamp = 0
-        const difficulty = 5
+        const difficulty = 4
         const nonce = 0
 
         return new Block(index, prevHash, hash, data, timestamp, difficulty, nonce)
@@ -27,6 +27,8 @@ class Block {
         const index = prevBlock.index + 1
         const prevHash = prevBlock.hash
         const timestamp = Date.now()
+        const difficulty = Block.adjustDifficulty(prevBlock, timestamp)
+
         let nonce = 0
         let hash, leadingZeros = "0".repeat(prevBlock.difficulty)
 
@@ -35,7 +37,7 @@ class Block {
             hash = crypto.createHash("sha256").update(index + prevHash + data + timestamp + nonce).digest("hex")
         } while (hash.startsWith(leadingZeros) == false)
 
-        return new Block(index, prevHash, hash, data, timestamp, prevBlock.difficulty, nonce)
+        return new Block(index, prevHash, hash, data, timestamp, difficulty, nonce)
     }
 
     static isValid(block, prevBlock) {
@@ -52,6 +54,22 @@ class Block {
 
     static computeHash(block) {
         return crypto.createHash("sha256").update(block.index + block.prevHash + block.data + block.timestamp + block.nonce).digest("hex")
+    }
+
+    static adjustDifficulty(prevBlock, timestamp) {
+        const difficulty = prevBlock.difficulty
+
+        if (timestamp - prevBlock.timestamp > 300) {
+            if (difficulty > 3 || difficulty < 24) {
+                return difficulty
+            }
+
+            return difficulty - 1
+        } else if (difficulty < 5) {
+            return difficulty + 1
+        }
+
+        return difficulty
     }
 }
 
