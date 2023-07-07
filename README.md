@@ -1,2 +1,2 @@
 # Lichtcoin
-Just a cryptocurrency I'm working on in C++
+Just a cryptocurrency I'm working on
