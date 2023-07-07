@@ -37,11 +37,27 @@ class Block {
 
         return new Block(index, prevHash, hash, data, timestamp, prevBlock.difficulty, nonce)
     }
+
+    static isValid(block, prevBlock) {
+        if (block.index != prevBlock.index + 1) {
+            return false
+        } else if (block.prevHash != prevBlock.hash) {
+            return false
+        } else if (block.hash != Block.computeHash(block)) {
+            return false
+        }
+
+        return true
+    }
+
+    static computeHash(block) {
+        return crypto.createHash("sha256").update(block.index + block.prevHash + block.data + block.timestamp + block.nonce).digest("hex")
+    }
 }
 
 const genesisBlock = Block.genesis
 console.log(genesisBlock)
 
 const block = Block.mine(genesisBlock, "Hello World")
-
+console.log(Block.isValid(block, genesisBlock))
 console.log(block)
