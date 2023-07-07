@@ -17,24 +17,31 @@ class Block {
         const hash = crypto.createHash("sha256").update("Genesis Block").digest("hex")
         const data = "Genesis Block"
         const timestamp = 0
-        const difficulty = 0
+        const difficulty = 4
         const nonce = 0
 
         return new Block(index, prevHash, hash, data, timestamp, difficulty, nonce)
+    }
+
+    static mine(prevBlock, data) {
+        const index = prevBlock.index + 1
+        const prevHash = prevBlock.hash
+        const timestamp = Date.now()
+        let nonce = 0
+        let hash, leadingZeros = "0".repeat(prevBlock.difficulty)
+
+        do {
+            nonce++
+            hash = crypto.createHash("sha256").update(index + prevHash + data + timestamp + nonce).digest("hex")
+        } while (hash.startsWith(leadingZeros) == false)
+
+        return new Block(index, prevHash, hash, data, timestamp, prevBlock.difficulty, nonce)
     }
 }
 
 const genesisBlock = Block.genesis
 console.log(genesisBlock)
 
-block = new Block(
-    1,
-    "0".repeat(64),
-    crypto.createHash("sha256").update("Block").digest("hex"),
-    "Block",
-    Date.now(),
-    0,
-    0
-)
+const block = Block.mine(genesisBlock, "Hello World")
 
 console.log(block)
