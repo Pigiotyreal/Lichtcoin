@@ -105,25 +105,12 @@ class Transaction {
         this.amount = amount
     }
 
-    static isValid(transaction) {
-        if (typeof transaction.from != "string") {
-            return false
-        } else if (typeof transaction.to != "string") {
-            return false
-        } else if (typeof transaction.amount != "number") {
-            return false
-        }
-
-        return true
-    }
-
     static sign(transaction, privateKey) {
         transaction.signature = crypto.createSign("SHA256").update(transaction.from + transaction.to + transaction.amount).sign(privateKey, "hex")
     }
 
     static verify(transaction) {
-        const publicKey = crypto.createPublicKey(transaction.from)
-        return crypto.createVerify("SHA256").update(transaction.from + transaction.to + transaction.amount).verify(publicKey, transaction.signature)
+        return crypto.createVerify("SHA256").update(transaction.from + transaction.to + transaction.amount).verify(transaction.from, transaction.signature, "hex")
     }
 
     static transfer(from, to, amount, privateKey) {
@@ -180,3 +167,29 @@ blockchain.addBlock("Hello World")
 console.log(blockchain)
 
 console.log(blockchain.isValid())
+
+const user1 = Transaction.wallet
+const user2 = Transaction.wallet
+const user3 = Transaction.wallet
+
+user1.balance = 250
+user2.balance = 0
+user3.balance = 0
+
+const transaction = Transaction.transfer(user1.publicKey, user2.publicKey, 50, user1.privateKey)
+const transaction2 = Transaction.transfer(user2.publicKey, user3.publicKey, 25, user2.privateKey)
+console.log(transaction)
+console.log(transaction2)
+
+console.log(Transaction.verify(transaction))
+console.log(Transaction.verify(transaction2))
+
+user1.balance -= transaction.amount
+user2.balance += transaction.amount
+
+user2.balance -= transaction2.amount
+user3.balance += transaction2.amount
+
+console.log(user1.balance)
+console.log(user2.balance)
+console.log(user3.balance)
